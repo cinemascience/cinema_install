@@ -72,9 +72,9 @@ def write_database_file(path, databases):
 
             output.write("{\n")
             output.write("    \"name\": \"{}\",\n".format(db["path"]))
-            output.write("    \"directory\": \"{}\",\n".format(db["path"]))
+            output.write("    \"directory\": \"{}\"".format(db["path"]))
             if "selection" in db:
-                output.write("    \"selection\": {\n")
+                output.write(",\n    \"selection\": {\n")
                 firstvar = True
                 for v in db["selection"]:
                     if firstvar:
@@ -155,7 +155,7 @@ def install_compare():
                     else:
                         oFile.write(",\n")
 
-                    oFile.write("{}    \"{}\"".format(__format__["tab"], db))
+                    oFile.write("{}    \"{}\"".format(__format__["tab"], db["path"]))
                 oFile.write("\n{}]\n".format(__format__["tab"]))
                 
 def install_explorer():
