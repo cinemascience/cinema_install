@@ -83,6 +83,11 @@ install_cinema_viewer () {
   # Get all cdb's in current directory
   PWD=`pwd`
   dbs=(`ls -dp $PWD/*.cdb | grep /$ | sed 's/\/$//g'`)
+  if [ "${dbs[0]}" == "" ];
+  then
+    echo "No cinema databases were found (directories ending with '.cdb'). Exiting..."
+    cleanup 1
+  fi
 
   # Build a python dict string for all cdb's in current directory
   first="true"
@@ -104,19 +109,6 @@ install_cinema_viewer () {
     cinema_install.$viewer(\"$PWD/cinema_install/cinstall/cinema.source\", \"$PWD\", \"cinema_$viewer.html\", $db_string)'" 
 
   cleanup 0
-  
-  #TODO: not sure if needed
-#  if ./cinema 2>/dev/null >/dev/null; then
-#    echo "cinema_lib successfully installed! To use it:"
-#    echo "cd `pwd`"
-#    echo "./cinema"
-#  else
-#    echo "cinema_lib was not successfully installed!"
-#    echo "Here is the error. Consider submitting an issue to $github_page"
-#    ./cinema
-#    cd ../
-#    cleanup
-#  fi
 }
 
 # Variables
@@ -135,13 +127,7 @@ elif [ "$explorer" == "true" ]; then
   viewer="explorer"
 fi
 
-# Check for existing cinema viewer
-# TODO: Not sure if this is needed or not
-#if [ -d ./cinema ]; then
-#  echo "Looks like a cinema viewer is already installed here!"
-#  echo "If you want to reinstall, move to a new install location or remove `pwd`/cinema"
-#  exit 1
-#fi
+# TODO: Check for existing cinema viewer
 
 # Git clone cinema_install
 does_command_exist git
