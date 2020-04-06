@@ -85,7 +85,6 @@ install_cinema_viewer () {
   dbs=(`ls -dp $PWD/*.cdb | grep /$ | sed 's/\/$//g'`)
 
   # Build a python dict string for all cdb's in current directory
-  count=0
   first="true"
   db_string="["
   for db in ${dbs[@]};
@@ -94,10 +93,8 @@ install_cinema_viewer () {
     then
       first="false"
       db_string="$db_string{\"path\" : \"$db\"}"
-      count+=1
     else
       db_string="$db_string, {\"path\" : \"$db\"}"
-      count+=1
     fi
   done
   db_string="$db_string]"
