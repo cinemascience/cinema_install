@@ -1,9 +1,9 @@
 #!/bin/bash
 
 parse_args () {
-  while [ "${1}" != "" ]
+  while [ "$1" != "" ]
   do
-    case ${1} in
+    case $1 in
       -c | --compare )
         shift
         compare=true
@@ -13,7 +13,7 @@ parse_args () {
         explorer=true
         ;;
       * )
-        echo "Argument ${1} not recognized! Exiting..."
+        echo "Argument $1 not recognized! Exiting..."
         exit 1
         ;;
     esac
@@ -78,7 +78,7 @@ clone_cinema_install () {
 }
 
 install_cinema_viewer () {
-  echo "Installing cinema_${viewer}..."
+  echo "Installing cinema_$viewer..."
 
   # Get all cdb's in current directory
   PWD=`pwd`
@@ -93,14 +93,14 @@ install_cinema_viewer () {
     if [ $first = "true" ];
     then
       first="false"
-      db_string="${db_string}{\"path\" : \"${db}\"}"
+      db_string="$db_string{\"path\" : \"$db\"}"
       count+=1
     else
-      db_string="${db_string}, {\"path\" : \"${db}\"}"
+      db_string="$db_string, {\"path\" : \"$db\"}"
       count+=1
     fi
   done
-  db_string="${db_string}]"
+  db_string="$db_string]"
 
   # Run the python module
   eval "python3 -c 'import cinema_install.cinstall.install.install as cinema_install;\
@@ -115,7 +115,7 @@ install_cinema_viewer () {
 #    echo "./cinema"
 #  else
 #    echo "cinema_lib was not successfully installed!"
-#    echo "Here is the error. Consider submitting an issue to ${github_page}"
+#    echo "Here is the error. Consider submitting an issue to $github_page"
 #    ./cinema
 #    cd ../
 #    cleanup
