@@ -1,6 +1,7 @@
 #!/bin/bash
 
 parse_args () {
+  #TODO: add --help
   while [ "$1" != "" ]
   do
     case $1 in
@@ -11,6 +12,10 @@ parse_args () {
       -e | --explorer )
         shift
         explorer=true
+        ;;
+      -d | --database_file )
+        db_file=$2
+        shift 2
         ;;
       * )
         echo "Argument $1 not recognized! Exiting..."
@@ -77,23 +82,38 @@ clone_cinema_install () {
   echo "Git clone successful"
 }
 
-install_cinema_viewer () {
-  echo "Installing cinema_$viewer..."
+build_db_string () {
+  echo "Building database string..."
 
-  # Get all cdb's in current directory
-  PWD=`pwd`
-  dbs=(`ls -dp $PWD/*.cdb | grep /$ | sed 's/\/$//g'`)
-  if [ "${dbs[0]}" == "" ];
-  then
-    echo "No cinema databases were found (directories ending with '.cdb'). Exiting..."
-    cleanup 1
+  db_file=$1
+  # If not database file given, look for directories ending with *.cdb and use those
+  if [ $db_file == "" ]; then
+    # Get all cdb's in current directory
+    PWD=`pwd`
+    dbs=(`ls -dp $PWD/*.cdb | grep /$ | sed 's/\/$//g'`)
+    if [ "${dbs[0]}" == "" ];
+    then
+      echo "No cinema databases were found (directories ending with '.cdb'). Exiting..."
+      cleanup 1
+    fi
+  else
+    # Get cdb's from given text file
+    if [ ! -f $db_file ]; then
+      echo "$db_file does not exist. Exiting..."
+      cleanup 1
+    fi
+    dbs=(`cat $db_file`)
   fi
 
-  # Build a python dict string for all cdb's in current directory
+  # Check to see if all cdb's given exist and build python dict
   first="true"
   db_string="["
   for db in ${dbs[@]};
   do
+    if [ ! -d $db ]; then
+      echo "Could not find directory $db. Exiting..."
+      cleanup 1
+    fi
     if [ $first = "true" ];
     then
       first="false"
@@ -103,6 +123,10 @@ install_cinema_viewer () {
     fi
   done
   db_string="$db_string]"
+}
+
+install_cinema_viewer () {
+  echo "Installing cinema_$viewer..."
 
   # Run the python module
   eval "python3 -c 'import cinema_install.cinstall.install.install as cinema_install;\
@@ -125,6 +149,13 @@ if [ "$compare" == "true" ]; then
   viewer="compare"
 elif [ "$explorer" == "true" ]; then
   viewer="explorer"
+fi
+
+# Set up databases
+if [ -f $db_file ]; then
+  build_db_string $db_file
+else
+  build_db_string ""
 fi
 
 # TODO: Check for existing cinema viewer
