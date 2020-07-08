@@ -2,7 +2,7 @@
 
 parse_args () {
   #TODO: add --help
-  while [ "$1" != "" ]
+  while [[ "$1" != "" ]]
   do
     case $1 in
       -c | --compare )
@@ -26,13 +26,13 @@ parse_args () {
 }
 
 cleanup () {
-  [ -d ./cinema_install ] && rm -rf ./cinema_install
+  [[ -d ./cinema_install ]] && rm -rf ./cinema_install
   exit $1
 }
 
 does_command_exist () {
   if ! command -v "$1" >/dev/null 2>&1; then
-    if [ ! -z $2 ]; then
+    if [[ ! -z $2 ]]; then
       echo "$1 was not found. Checking for $2..."
       sleep 1
       if ! command -v "$2" >/dev/null 2>&1; then
@@ -53,7 +53,7 @@ does_command_exist () {
 }
 
 check_version () {
-  if [ "$2" != "" ]; then
+  if [[ "$2" != "" ]]; then
     if echo $2 $3 | awk '{ exit ($1 >= $2) }'; then
       echo "$1 of at least version $3 is needed. $2 is currently installed."
       sleep 1
@@ -87,18 +87,18 @@ build_db_string () {
 
   db_file=$1
   # If not database file given, look for directories ending with *.cdb and use those
-  if [ $db_file == "" ]; then
+  if [[ $db_file == "" ]]; then
     # Get all cdb's in current directory
     PWD=`pwd`
     dbs=(`ls -dp $PWD/*.cdb | grep /$ | sed 's/\/$//g'`)
-    if [ "${dbs[0]}" == "" ];
+    if [[ "${dbs[0]}" == "" ]];
     then
       echo "No cinema databases were found (directories ending with '.cdb'). Exiting..."
       cleanup 1
     fi
   else
     # Get cdb's from given text file
-    if [ ! -f $db_file ]; then
+    if [[ ! -f $db_file ]]; then
       echo "$db_file does not exist. Exiting..."
       cleanup 1
     fi
@@ -110,11 +110,11 @@ build_db_string () {
   db_string="["
   for db in ${dbs[@]};
   do
-    if [ ! -d $db ]; then
+    if [[ ! -d $db ]]; then
       echo "Could not find directory $db. Exiting..."
       cleanup 1
     fi
-    if [ $first = "true" ];
+    if [[ $first = "true" ]];
     then
       first="false"
       db_string="$db_string{\"path\" : \"$db\"}"
@@ -145,14 +145,14 @@ explorer="true"
 parse_args $@
 
 # Which viewer to install 
-if [ "$compare" == "true" ]; then
+if [[ "$compare" == "true" ]]; then
   viewer="compare"
-elif [ "$explorer" == "true" ]; then
+elif [[ "$explorer" == "true" ]]; then
   viewer="explorer"
 fi
 
 # Set up databases
-if [ -f $db_file ]; then
+if [[ -f $db_file ]]; then
   build_db_string $db_file
 else
   build_db_string ""
