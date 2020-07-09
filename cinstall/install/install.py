@@ -72,9 +72,9 @@ def write_database_file(path, databases):
 
             output.write("{\n")
             output.write("    \"name\": \"{}\",\n".format(db["path"]))
-            output.write("    \"directory\": \"{}\",\n".format(db["path"]))
+            output.write("    \"directory\": \"{}\"".format(db["path"]))
             if "selection" in db:
-                output.write("    \"selection\": {\n")
+                output.write(",\n    \"selection\": {\n")
                 firstvar = True
                 for v in db["selection"]:
                     if firstvar:
@@ -94,6 +94,10 @@ def explorer(indir, outdir, outfile, dbs):
 
 
 def compare(indir, outdir, outfile, dbs):
+    # cinema_compare only supports loading one or two cdb's
+    if len(dbs) > 2:
+        print("ERROR: cinema_compare supports loading 1 or 2 databases but was given {}\n".format(len(dbs)))
+        return False
     set_databases(dbs)
     return install_core("compare", indir, outdir, outfile)
 
@@ -155,7 +159,7 @@ def install_compare():
                     else:
                         oFile.write(",\n")
 
-                    oFile.write("{}    \"{}\"".format(__format__["tab"], db))
+                    oFile.write("{}    \"{}\"".format(__format__["tab"], db["path"]))
                 oFile.write("\n{}]\n".format(__format__["tab"]))
                 
 def install_explorer():
@@ -197,14 +201,14 @@ def install_check(viewer, indir, outdir, outfile):
         print("ERROR: {} does not exist".format(__paths__["indir"]))
         installState = False;
     elif not os.path.isfile(__paths__["fullInfile"]):
-         print("ERROR: {} does not exist".format(__paths__["fullInfile"]))
-         installState = False;
+        print("ERROR: {} does not exist".format(__paths__["fullInfile"]))
+        installState = False;
     elif not os.path.isdir(__paths__["outdir"]):
-         print("ERROR: {} does not exist".format(__paths__["outdir"]))
-         installState = False;
+        print("ERROR: {} does not exist".format(__paths__["outdir"]))
+        installState = False;
     elif os.path.isfile(__paths__["fullOutfile"]):
-         print("ERROR: {} exists".format(__paths__["fullOutfile"]))
-         installState = False;
+        print("ERROR: {} exists".format(__paths__["fullOutfile"]))
+        installState = False;
 
     return installState
 
