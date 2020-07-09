@@ -2,33 +2,33 @@
 
 Modules that help install Cinema viewers
 
-# Quick install command (WIP):
-This command will install a cinema_explorer (default) or cinema_compare viewer in the current directory:
+# Quick install command:
+This command will install a cinema_explorer (default) or cinema_compare viewer in the current directory. Currently supports up to 2 databases with cinema_compare. If using more than 2 databases, choose explorer.
 
 With [curl](https://curl.haxx.se/):
 Use cinema_explorer:
 ```
-curl -s "https://raw.githubusercontent.com/EthanS94/cinema_install/wip_simple_install/install.sh" | bash /dev/stdin --explorer
+curl -s "https://raw.githubusercontent.com/cinemascience/cinema_install/master/install.sh" | bash /dev/stdin --explorer
 ```
 Use cinema_compare:
 ```
-curl -s "https://raw.githubusercontent.com/EthanS94/cinema_install/wip_simple_install/install.sh" | bash /dev/stdin --compare
+curl -s "https://raw.githubusercontent.com/cinemascience/cinema_install/master/install.sh" | bash /dev/stdin --compare
 ```
 
 With [wget](https://www.gnu.org/software/wget/):
 Use cinema_explorer:
 ```
-wget -qO - "https://raw.githubusercontent.com/EthanS94/cinema_install/wip_simple_install/install.sh" | bash /dev/stdin --explorer
+wget -qO - "https://raw.githubusercontent.com/cinemascience/cinema_install/master/install.sh" | bash /dev/stdin --explorer
 ```
 Use cinema_compare:
 ```
-wget -qO - "https://raw.githubusercontent.com/EthanS94/cinema_install/wip_simple_install/install.sh" | bash /dev/stdin --compare
+wget -qO - "https://raw.githubusercontent.com/cinemascience/cinema_install/master/install.sh" | bash /dev/stdin --compare
 ```
 
 # Specify the databases 
 To specify databases, point the script at a text file containing the full path to each database.
 ```
-curl -s "https://raw.githubusercontent.com/EthanS94/cinema_install/wip_simple_install/install.sh" | bash /dev/stdin --database_file /path/to/database_file
+curl -s "https://raw.githubusercontent.com/cinemascience/cinema_install/master/install.sh" | bash /dev/stdin --database_file /path/to/database_file
 ```
 
 Databases should be separated by a newline. Example database_file contents:
