@@ -68,13 +68,13 @@ check_version () {
 
 clone_cinema_install () {
   echo "Cloning cinema_install repository..."
-  if ! git clone --branch=wip_simple_install --depth=1 $github_repo;
+  if ! git clone --depth=1 $github_repo;
   then
     echo "Git clone timed out. Proxy settings may be the reason. Trying again without any proxy settings..."
-    if ! git clone -q -c http.proxy="" -c https.proxy="" --branch=wip_simple_install --depth=1 $github_repo;
+    if ! git clone -q -c http.proxy="" -c https.proxy="" --depth=1 $github_repo;
     then
       echo "Failed to clone cinema_install. Make sure this works for you and try again:"
-      echo "git clone --branch=wip_simple_install --depth=1 $github_repo'"
+      echo "git clone --depth=1 $github_repo'"
       echo "Exiting..."
       cleanup 1
     fi
