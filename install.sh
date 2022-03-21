@@ -137,7 +137,7 @@ install_cinema_viewer () {
 
 # Variables
 # Default to install explorer
-github_repo="https://github.com/EthanS94/cinema_install.git"
+github_repo="https://github.com/cinemascience/cinema_install.git"
 compare="false"
 explorer="true"
 
